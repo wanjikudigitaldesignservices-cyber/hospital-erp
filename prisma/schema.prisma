@@ -1,0 +1,138 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Branch {
+  id              String   @id @default(uuid())
+  name            String
+  location        String
+  contact_details String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  users         User[]
+  patients      Patient[]
+  appointments  Appointment[]
+  inventory     BranchStock[]
+  invoices      Invoice[]
+}
+
+enum Role {
+  SUPER_ADMIN
+  BRANCH_MANAGER
+  DOCTOR
+  NURSE
+  PHARMACIST
+  RECEPTIONIST
+}
+
+model User {
+  id          String   @id @default(uuid())
+  branch_id   String
+  role        Role
+  name        String
+  email       String   @unique
+  password    String   // Hashed password
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  branch       Branch        @relation(fields: [branch_id], references: [id])
+  appointments Appointment[] // Doctor's appointments
+}
+
+model Patient {
+  id                String   @id @default(uuid())
+  primary_branch_id String
+  name              String
+  dateOfBirth       DateTime
+  gender            String
+  contact_number    String?
+  medical_history   String?  // Could be JSON or separate table
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  branch       Branch        @relation(fields: [primary_branch_id], references: [id])
+  appointments Appointment[]
+  invoices     Invoice[]
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  WAITING
+  IN_CONSULTATION
+  PHARMACY
+  DISCHARGED
+  CANCELLED
+}
+
+model Appointment {
+  id         String   @id @default(uuid())
+  patient_id String
+  doctor_id  String
+  branch_id  String
+  datetime   DateTime
+  status     AppointmentStatus @default(SCHEDULED)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  patient Patient @relation(fields: [patient_id], references: [id])
+  doctor  User    @relation(fields: [doctor_id], references: [id])
+  branch  Branch  @relation(fields: [branch_id], references: [id])
+}
+
+model InventoryItem {
+  id           String   @id @default(uuid())
+  name         String
+  sku          String   @unique
+  generic_name String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  stocks BranchStock[]
+}
+
+model BranchStock {
+  id          String   @id @default(uuid())
+  branch_id   String
+  item_id     String
+  quantity    Int      @default(0)
+  expiry_date DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  branch Branch        @relation(fields: [branch_id], references: [id])
+  item   InventoryItem @relation(fields: [item_id], references: [id])
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CASH
+  M_PESA
+  INSURANCE
+  CARD
+}
+
+model Invoice {
+  id             String   @id @default(uuid())
+  patient_id     String
+  branch_id      String
+  total_amount   Float
+  status         PaymentStatus @default(PENDING)
+  payment_method PaymentMethod?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  patient Patient @relation(fields: [patient_id], references: [id])
+  branch  Branch  @relation(fields: [branch_id], references: [id])
+}
