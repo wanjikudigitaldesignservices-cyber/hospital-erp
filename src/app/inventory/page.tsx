@@ -13,7 +13,7 @@ export default function InventoryPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Pharmacy & Central Inventory</h1>
+          <h1 className="text-2xl font-bold text-slate-900">Pharmacy &amp; Central Inventory</h1>
           <p className="text-sm text-slate-500">Manage stock across all branches and request transfers.</p>
         </div>
         <div className="flex gap-3">
@@ -59,7 +59,7 @@ export default function InventoryPage() {
           <table className="w-full text-left text-sm text-slate-600">
             <thead className="bg-white text-slate-500 border-b border-slate-100">
               <tr>
-                <th className="px-6 py-4 font-medium">Item Name & SKU</th>
+                <th className="px-6 py-4 font-medium">Item Name &amp; SKU</th>
                 <th className="px-6 py-4 font-medium">Generic Name</th>
                 <th className="px-6 py-4 font-medium">Branch</th>
                 <th className="px-6 py-4 font-medium">Quantity</th>

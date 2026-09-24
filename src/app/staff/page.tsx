@@ -18,7 +18,7 @@ export default function StaffPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">HR & Staff Management</h1>
+          <h1 className="text-2xl font-bold text-slate-900">HR &amp; Staff Management</h1>
           <p className="text-sm text-slate-500">Manage employee directories, duty rosters, and attendance across all branches.</p>
         </div>
         <button className="px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 shadow-sm transition">
