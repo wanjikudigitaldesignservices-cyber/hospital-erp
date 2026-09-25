@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model Branch {
@@ -22,19 +22,10 @@ model Branch {
   invoices      Invoice[]
 }
 
-enum Role {
-  SUPER_ADMIN
-  BRANCH_MANAGER
-  DOCTOR
-  NURSE
-  PHARMACIST
-  RECEPTIONIST
-}
-
 model User {
   id          String   @id @default(uuid())
   branch_id   String
-  role        Role
+  role        String   @default("DOCTOR") // Roles: SUPER_ADMIN, BRANCH_MANAGER, DOCTOR, NURSE, PHARMACIST, RECEPTIONIST
   name        String
   email       String   @unique
   password    String   // Hashed password
@@ -52,7 +43,7 @@ model Patient {
   dateOfBirth       DateTime
   gender            String
   contact_number    String?
-  medical_history   String?  // Could be JSON or separate table
+  medical_history   String?  // Could be JSON string or separate table
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
@@ -61,22 +52,13 @@ model Patient {
   invoices     Invoice[]
 }
 
-enum AppointmentStatus {
-  SCHEDULED
-  WAITING
-  IN_CONSULTATION
-  PHARMACY
-  DISCHARGED
-  CANCELLED
-}
-
 model Appointment {
   id         String   @id @default(uuid())
   patient_id String
   doctor_id  String
   branch_id  String
   datetime   DateTime
-  status     AppointmentStatus @default(SCHEDULED)
+  status     String   @default("SCHEDULED") // SCHEDULED, WAITING, IN_CONSULTATION, PHARMACY, DISCHARGED, CANCELLED
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
@@ -109,27 +91,13 @@ model BranchStock {
   item   InventoryItem @relation(fields: [item_id], references: [id])
 }
 
-enum PaymentStatus {
-  PENDING
-  PAID
-  OVERDUE
-  CANCELLED
-}
-
-enum PaymentMethod {
-  CASH
-  M_PESA
-  INSURANCE
-  CARD
-}
-
 model Invoice {
   id             String   @id @default(uuid())
   patient_id     String
   branch_id      String
   total_amount   Float
-  status         PaymentStatus @default(PENDING)
-  payment_method PaymentMethod?
+  status         String   @default("PENDING") // PENDING, PAID, OVERDUE, CANCELLED
+  payment_method String?  // CASH, M_PESA, INSURANCE, CARD
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
