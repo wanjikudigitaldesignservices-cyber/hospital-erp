@@ -97,8 +97,9 @@ const departments: Record<string, any> = {
   }
 };
 
-export default function DepartmentPage({ params }: { params: { slug: string } }) {
-  const dept = departments[params.slug];
+export default async function DepartmentPage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params;
+  const dept = departments[resolvedParams.slug];
   
   if (!dept) {
     notFound();
