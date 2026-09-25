@@ -3,6 +3,7 @@
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -33,27 +34,28 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 relative overflow-hidden">
-      {/* Animated background elements */}
+      {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-emerald-400/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-600/5 rounded-full blur-3xl" />
       </div>
 
       <div className="relative z-10 w-full max-w-md px-6">
-        {/* Logo / Hospital Brand */}
+        {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 mb-4 backdrop-blur-sm">
-            <span className="text-3xl">🏥</span>
-          </div>
+          <Link href="/" className="inline-block">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 mb-4 backdrop-blur-sm">
+              <img src="/images/hospital-hero.jpg" alt="MedCore" className="w-full h-full object-cover rounded-2xl" />
+            </div>
+          </Link>
           <h1 className="text-3xl font-bold text-white tracking-tight">MedCore ERP</h1>
-          <p className="text-emerald-300/70 text-sm mt-2">Enterprise Hospital Management System</p>
+          <p className="text-emerald-300/70 text-sm mt-2">Staff Portal &mdash; Authorized Personnel Only</p>
         </div>
 
         {/* Login Card */}
         <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 shadow-2xl p-8">
           <h2 className="text-xl font-semibold text-white mb-1">Welcome Back</h2>
-          <p className="text-slate-300 text-sm mb-6">Sign in to access your workspace</p>
+          <p className="text-slate-300 text-sm mb-6">Sign in with your staff credentials</p>
 
           {error && (
             <div className="mb-4 p-3 bg-rose-500/20 border border-rose-500/30 rounded-lg text-rose-200 text-sm flex items-center gap-2">
@@ -69,7 +71,7 @@ export default function LoginPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@hospital.co.ke"
+                placeholder="you@medcore.co.ke"
                 required
                 className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition"
               />
@@ -102,20 +104,15 @@ export default function LoginPage() {
             </button>
           </form>
 
-          {/* Demo Credentials */}
-          <div className="mt-6 p-4 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
-            <p className="text-emerald-300 text-xs font-semibold mb-2">🔑 Demo Credentials</p>
-            <div className="grid grid-cols-2 gap-1 text-xs text-slate-300">
-              <span className="text-slate-400">Admin:</span><span>admin@medcore.co.ke</span>
-              <span className="text-slate-400">Doctor:</span><span>dr.wanjiku@medcore.co.ke</span>
-              <span className="text-slate-400">Pharmacist:</span><span>pharm.ochieng@medcore.co.ke</span>
-              <span className="text-slate-400">Receptionist:</span><span>njeri@medcore.co.ke</span>
-            </div>
-            <p className="text-slate-400 text-xs mt-1">Password for all: <span className="text-emerald-300">demo1234</span></p>
+          <div className="mt-6 text-center">
+            <p className="text-slate-400 text-xs">Forgot your password? Contact your HR administrator.</p>
           </div>
         </div>
 
-        <p className="text-center text-slate-400 text-xs mt-6">&copy; 2026 MedCore Hospital Group. Secure access only.</p>
+        <div className="text-center mt-6">
+          <Link href="/" className="text-emerald-400/60 text-xs hover:text-emerald-300 transition">&larr; Back to Hospital Website</Link>
+        </div>
+        <p className="text-center text-slate-500 text-xs mt-3">&copy; 2026 MedCore Hospital Group. Secure access only.</p>
       </div>
     </div>
   );
