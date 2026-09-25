@@ -3,12 +3,14 @@ import Image from 'next/image';
 
 export default function HospitalWebsite() {
   const services = [
-    { name: 'Cardiology', desc: 'Advanced cardiac care with state-of-the-art catheterization lab, echocardiography, and 24/7 ICU monitoring.', image: '/images/surgery-theatre.jpg' },
-    { name: 'Maternity', desc: 'Comprehensive antenatal, delivery, and postnatal care in our luxury birthing suites with neonatal ICU.', image: '/images/maternity-ward.jpg' },
-    { name: 'General Surgery', desc: 'Minimally invasive laparoscopic surgery, orthopedic procedures, and emergency trauma surgery.', image: '/images/surgery-theatre.jpg' },
-    { name: 'Pharmacy', desc: '24/7 in-house pharmacy with comprehensive medication management, counseling, and digital inventory.', image: '/images/pharmacy-lab.jpg' },
-    { name: 'Outpatient Clinic', desc: 'Walk-in and appointment-based consultations across all specialties including pediatrics and internal medicine.', image: '/images/doctor-consultation.jpg' },
-    { name: 'Diagnostics', desc: 'Full diagnostic imaging suite — MRI, CT scan, digital X-ray, ultrasound, and comprehensive lab services.', image: '/images/pharmacy-lab.jpg' },
+    { id: 'cardiology', name: 'Cardiology', desc: 'Advanced cardiac care with state-of-the-art catheterization lab and ICU monitoring.', image: '/images/cardiology.jpg' },
+    { id: 'maternity', name: 'Maternity', desc: 'Comprehensive antenatal, delivery, and postnatal care in our luxury birthing suites.', image: '/images/maternity-ward.jpg' },
+    { id: 'pediatrics', name: 'Pediatrics', desc: 'Specialized children\'s healthcare from neonatal intensive care to adolescent medicine.', image: '/images/pediatrics.jpg' },
+    { id: 'orthopedics', name: 'Orthopedics', desc: 'Joint replacements, sports medicine, and trauma surgery by leading specialists.', image: '/images/orthopedics.jpg' },
+    { id: 'oncology', name: 'Oncology', desc: 'Full-spectrum cancer care including chemotherapy, radiation therapy, and surgical oncology.', image: '/images/oncology.jpg' },
+    { id: 'neurology', name: 'Neurology', desc: 'Expert diagnosis and treatment of neurological disorders with advanced imaging.', image: '/images/neurology.jpg' },
+    { id: 'dental', name: 'Dental Care', desc: 'Cosmetic dentistry, orthodontics, and oral surgery in our modern dental wing.', image: '/images/dental.jpg' },
+    { id: 'pharmacy', name: 'Pharmacy', desc: '24/7 in-house pharmacy with comprehensive medication management and counseling.', image: '/images/pharmacy-lab.jpg' },
   ];
 
   const stats = [
@@ -116,15 +118,16 @@ export default function HospitalWebsite() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, i) => (
-              <div key={i} className="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+              <Link href={`/services/${service.id}`} key={i} className="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group block">
                 <div className="h-48 overflow-hidden">
                   <img src={service.image} alt={service.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="p-6">
                   <h3 className="text-lg font-bold text-slate-900 mb-2">{service.name}</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed">{service.desc}</p>
+                  <p className="text-sm text-slate-500 leading-relaxed mb-4">{service.desc}</p>
+                  <span className="text-emerald-600 font-semibold text-sm group-hover:underline">View Department &rarr;</span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
