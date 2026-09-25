@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 
 // This is a placeholder for the authentication and RBAC logic.
 // In a real application, you would verify the session/token here.
-export function middleware(request: NextRequest) {
+export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Example: protect routes
